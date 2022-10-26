@@ -1,0 +1,16 @@
+Package: flexpart
+Type: Package
+Title: Create Partial Residual Plots
+Version: 0.1.0
+Author: Dustin Fife 
+Maintainer: Dustin Fife <fife.dustin@gmail.com>
+Description: This package specializes in creating partial residual plots. These plots are built within the flexplot framework, which was built atop ggplot2.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.1
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)
