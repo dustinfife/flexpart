@@ -1,6 +1,6 @@
 compute_mean_or_mode = function(x) {
   if (is.numeric(x)) return(mean(x, na.rm=T))
-  return(names(sort(table(x)))[1])
+  return(names(sort(table(x), decreasing = T))[1])
 }
 
 # model = lm(health~weight.loss + motivation * therapy.type, data=exercise_data)
@@ -107,7 +107,7 @@ return_term_location = function(model, term) {
 return_fitted_line = function(k, plot_data, model=NULL, suppress_model){
 
   # if there's no model (or they choose to suppress, return a blank geom)
-  if (is.null(model) | suppress_model) return(geom_blank)
+  if (is.null(model) | suppress_model) return(geom_blank())
 
   # color line depending on if there's a group aesthetic
   if (is.null(plot_data$mapping$colour)) return(geom_line(data=k, aes(y=predict), colour="#8F0000", size=1.5))
@@ -139,7 +139,7 @@ create_prp_dataset = function(plot_data, plot_formula, model) {
   return(k)
 }
 
-add_fit_to_prp = function(k, added_term, model) {
+add_fit_to_prp = function(k, added_term, model, data) {
 
 
   # identify which components go into the model
@@ -153,6 +153,6 @@ add_fit_to_prp = function(k, added_term, model) {
 
   # fix the intercepts by making the means of prediction/residuals the same
   y = all.vars(formula(model))[1]
-  predict = predict - (mean(predict) - mean(model$model[,y]))
+  predict = predict - (mean(predict) - mean(data[,y]))
   return(predict)
 }

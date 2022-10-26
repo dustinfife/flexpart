@@ -17,6 +17,15 @@
 #' partial_residual_plot(weight.loss~therapy.type,
 #'    lm_formula = weight.loss~therapy.type + motivation,
 #'    data=exercise_data)
+#' # prp with a model (showing regular residuals)
+#' mod = lm(y~a + b + z + x, data=small)
+#' partial_residual_plot(y~x, lm_formula = y~x + b, data=small)
+#'
+#' # prp, but we add back in the x effect
+#' partial_residual_plot(y~x, model=mod, added_term=~x, data=small)
+#'
+#' # now show show a scatterplot of the partial residuals and overlay a loess line
+#' partial_residual_plot(y~x, model=mod, added_term=~x, data=small, suppress_model=T, method="loess")
 partial_residual_plot = function(plot_formula, lm_formula=NULL, model=NULL, data,
                                  added_term = NULL, suppress_model=F, ...) {
 
@@ -44,11 +53,13 @@ partial_residual_plot = function(plot_formula, lm_formula=NULL, model=NULL, data
 
   ## create plot so we can get the "binned" variables (if they exist)
   plot_data = flexplot(plot_formula, data=data, suppress_smooth=T, ...)
-  browser()
+
   ## create dataset for prps
   k = create_prp_dataset(plot_data, plot_formula, model)
-  k$predict = add_fit_to_prp(k, added_term, model)
+  k$predict = add_fit_to_prp(k, added_term, model, data)
+
   fitted_line = return_fitted_line(k, plot_data, model, suppress_model = suppress_model)
+
 
   # plot it
   y_label = paste0(paste0(lm_formula)[2], " ~ ", paste0(lm_formula)[3])

@@ -24,9 +24,9 @@ partial_residual_plot(
 \item{data}{The dataset}
 
 \item{added_term}{a formula, which specifies which terms should be de-residualized. By default,
-it will use the residuals from `model`.}
+nothing is added back in (so the plot will just show the residuals of the model).}
 
-\item{suppress_model}{A boolean. Should the model be suppressed? Defaults to T.}
+\item{suppress_model}{A boolean. Should the visual fit of the model be suppressed? Defaults to T.}
 
 \item{...}{Other arguments passed to flexplot}
 }
@@ -40,4 +40,13 @@ Partial Residual Plot
 partial_residual_plot(weight.loss~therapy.type,
    lm_formula = weight.loss~therapy.type + motivation,
    data=exercise_data)
+# prp with a model (showing regular residuals)
+mod = lm(y~a + b + z + x, data=small)
+partial_residual_plot(y~x, lm_formula = y~x + b, data=small)
+
+# prp, but we add back in the x effect
+partial_residual_plot(y~x, model=mod, added_term=~x, data=small)
+
+# now show show a scatterplot of the partial residuals and overlay a loess line
+partial_residual_plot(y~x, model=mod, added_term=~x, data=small, suppress_model=T, method="loess")
 }
