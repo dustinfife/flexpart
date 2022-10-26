@@ -104,7 +104,7 @@ return_term_location = function(model, term) {
   return(which(variables %in% term))
 }
 
-return_fitted_line = function(k, plot_data, model=NULL, suppress_model){
+return_fitted_line = function(k=NULL, plot_data=NULL, model=NULL, suppress_model=FALSE){
 
   # if there's no model (or they choose to suppress, return a blank geom)
   if (is.null(model) | suppress_model) return(geom_blank())
